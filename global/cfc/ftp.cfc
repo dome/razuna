@@ -88,9 +88,24 @@
 		<!--- Open ftp connection --->
         <cfset var o = ftpopen(server=session.ftp_server,username=session.ftp_user,password=session.ftp_pass,passive=session.ftp_passive)>
 		<!--- Put the file on the FTP Site --->
-        <cfset Ftpputfile(ftpdata=o, remotefile="#arguments.thestruct.folderpath#/#arguments.thestruct.thefile#", localfile="#arguments.thestruct.thepath#/outgoing/#arguments.thestruct.thefile#", passive=session.ftp_passive)>
-		<!--- Delete the file in the outgoing folder --->
-		<cffile action="delete" file="#arguments.thestruct.thepath#/outgoing/#arguments.thestruct.thefile#">
+		<cfif session.createzip EQ 'no'>
+			<cfif structKeyExists(arguments.thestruct,'newname')>
+				<cfset Ftpputfile(ftpdata=o, remotefile="#arguments.thestruct.folderpath#/#arguments.thestruct.newname#", localfile="#arguments.thestruct.thepath#/outgoing/#arguments.thestruct.thefile#/#arguments.thestruct.newname#", passive=session.ftp_passive)>
+			<cfelse>
+				<cfset Ftpputfile(ftpdata=o, remotefile="#arguments.thestruct.folderpath#/#arguments.thestruct.thefinalname#", localfile="#arguments.thestruct.thepath#/outgoing/#arguments.thestruct.thefile#/#arguments.thestruct.thefinalname#", passive=session.ftp_passive)>
+			</cfif>
+		<cfelse>
+			<cfset Ftpputfile(ftpdata=o, remotefile="#arguments.thestruct.folderpath#/#arguments.thestruct.thefile#", localfile="#arguments.thestruct.thepath#/outgoing/#arguments.thestruct.thefile#", passive=session.ftp_passive)>
+		</cfif>
+		<cfif session.createzip EQ 'no'>
+			<!--- Delete the outgoing folder --->
+			<cfif directoryExists('#arguments.thestruct.thepath#/outgoing/#arguments.thestruct.thefile#')>
+				<cfdirectory action="delete" directory="#arguments.thestruct.thepath#/outgoing/#arguments.thestruct.thefile#" recurse="yes">
+			</cfif>
+		<cfelse>
+			<!--- Delete the file in the outgoing folder --->
+			<cffile action="delete" file="#arguments.thestruct.thepath#/outgoing/#arguments.thestruct.thefile#">
+		</cfif>
 		<!--- Close FTP --->
 		<cfset ftpclose(o)>
 		<cfoutput>success</cfoutput>

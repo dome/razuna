@@ -922,14 +922,27 @@
 		<cfthread action="join" name="download#arguments.thestruct.file_id#" />
 		<!--- Remove any file with the same name in this directory. Wrap in a cftry so if the file does not exist we don't have a error --->
 		<cftry>
-			<cffile action="delete" file="#arguments.thestruct.thepath#/outgoing/#newnamenoext#.zip">
+			<cfif session.createzip EQ 'no'>
+				<cfdirectory action="delete" directory="#arguments.thestruct.thepath#/outgoing/#arguments.thestruct.zipname#" recurse="yes">
+			<cfelse>
+				<cffile action="delete" file="#arguments.thestruct.thepath#/outgoing/#newnamenoext#.zip">
+			</cfif>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
-		<!--- Zip the file --->	
-		<cfzip action="create" ZIPFILE="#arguments.thestruct.thepath#/outgoing/#newnamenoext#.zip" source="#arguments.thestruct.thepath#/outgoing/#newname#" recurse="true" timeout="300" />
+		<cfif session.createzip EQ 'no'>
+			<cfdirectory action="create" directory="#arguments.thestruct.thepath#/outgoing/#arguments.thestruct.zipname#">
+			<cffile action="copy" source="#arguments.thestruct.thepath#/outgoing/#arguments.thestruct.newname#" destination="#arguments.thestruct.thepath#/outgoing/#arguments.thestruct.zipname#" mode="775">
+		<cfelse>
+			<!--- Zip the file --->	
+			<cfzip action="create" ZIPFILE="#arguments.thestruct.thepath#/outgoing/#newnamenoext#.zip" source="#arguments.thestruct.thepath#/outgoing/#newname#" recurse="true" timeout="300" />
+		</cfif>
 		<!--- Remove the file --->
 		<cffile action="delete" file="#arguments.thestruct.thepath#/outgoing/#newname#">
-		<cfset newname="#newnamenoext#.zip">
+		<cfif session.createzip EQ 'no'>
+			<cfset newname="#newnamenoext#">
+		<cfelse>
+			<cfset newname="#newnamenoext#.zip">
+		</cfif>
 		<!--- Return --->
 		<cfreturn newname>
 	</cffunction>
