@@ -1336,6 +1336,7 @@
 		</cfif>
 		<!--- It is a local link --->
 		<cfelseif qry.link_kind EQ "lan">
+			<!--- check the create zip --->
 			<cfif session.createzip EQ 'no'>
 				<cffile action="copy" source="#arguments.thestruct.qry.link_path_url#" destination="#arguments.thestruct.thepath#/outgoing/#arguments.thestruct.tempfolder#/#arguments.thestruct.zipname#" mode="775">
 			<cfelse>

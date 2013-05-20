@@ -1212,6 +1212,7 @@
 		<cfset arguments.thestruct.thecolname = thecolname>
 		<!--- Local --->
 		<cfif application.razuna.storage EQ "local" AND qry.link_kind EQ "">
+			<!--- check the create zip --->
 			<cfif session.createzip EQ 'no'>
 					<cffile action="copy" source="#arguments.thestruct.assetpath#/#arguments.thestruct.hostid#/#arguments.thestruct.qry.path_to_asset#/#arguments.thestruct.thefinalname#" destination="#arguments.thestruct.thepath#/outgoing/#arguments.thestruct.tempfolder#/#arguments.thestruct.zipname#" mode="775">
 			<cfelse>

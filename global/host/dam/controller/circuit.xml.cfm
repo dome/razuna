@@ -3049,8 +3049,8 @@
 		<set name="session.file_id" value="#attributes.file_id#" />
 		<set name="session.thetype" value="#attributes.thetype#" />
 		<set name="session.sendaszip" value="#attributes.sendaszip#" />
-		<set name="session.createzip" value="#attributes.createzip#" />
 		<set name="session.frombasket" value="F" />
+		<set name="session.createzip" value="#attributes.createzip#" />
 		<!-- If this comes from the scheduled uploads -->
 		<if condition="attributes.thetype EQ 'sched'">
 			<true>

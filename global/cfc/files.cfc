@@ -929,6 +929,7 @@
 			</cfif>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
+		<!--- check the create zip --->
 		<cfif session.createzip EQ 'no'>
 			<cfdirectory action="create" directory="#arguments.thestruct.thepath#/outgoing/#arguments.thestruct.zipname#">
 			<cffile action="copy" source="#arguments.thestruct.thepath#/outgoing/#arguments.thestruct.newname#" destination="#arguments.thestruct.thepath#/outgoing/#arguments.thestruct.zipname#" mode="775">

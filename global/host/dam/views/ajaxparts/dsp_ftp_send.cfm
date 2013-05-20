@@ -141,6 +141,7 @@
 			</tr>
 		</cfif>
 		<tr>
+			<!--- create zip --->
 			<td>#myFusebox.getApplicationData().defaults.trans("create_zip")#</td>
 			<td><input name="createzip" type="radio" value="no" checked="true">#myFusebox.getApplicationData().defaults.trans("no")# <input name="createzip" type="radio" value="yes">#myFusebox.getApplicationData().defaults.trans("yes")#</td>
 		</tr>

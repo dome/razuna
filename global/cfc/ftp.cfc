@@ -88,6 +88,7 @@
 		<!--- Open ftp connection --->
         <cfset var o = ftpopen(server=session.ftp_server,username=session.ftp_user,password=session.ftp_pass,passive=session.ftp_passive)>
 		<!--- Put the file on the FTP Site --->
+		<!--- check the create zip --->
 		<cfif session.createzip EQ 'no'>
 			<cfif structKeyExists(arguments.thestruct,'newname')>
 				<cfset Ftpputfile(ftpdata=o, remotefile="#arguments.thestruct.folderpath#/#arguments.thestruct.newname#", localfile="#arguments.thestruct.thepath#/outgoing/#arguments.thestruct.thefile#/#arguments.thestruct.newname#", passive=session.ftp_passive)>
